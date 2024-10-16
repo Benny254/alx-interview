@@ -3,10 +3,7 @@
     needed in a CopyAll - Paste task
 """
 def minOperations(n):
-"""
-    Method for compute the minimum number
-    of operations.
-"""
+
     if n <= 1:
         return 0
     
