@@ -1,58 +1,80 @@
 #!/usr/bin/python3
 """
-N Queens Problem Solver
-This script solves the N Queens problem, which involves placing N non-attacking queens on an N×N chessboard.
-Usage: nqueens N
+The N queens puzzle is the challenge of placing N non-attacking queens
+on an NxN chessboard. Write a program that solves the N queens problem.
+    Usage: nqueens N
+        If the user called the program with the wrong number of arguments,
+        print Usage: nqueens N, followed by a new line,
+        and exit with the status 1
+    where N must be an integer greater or equal to 4
+        If N is not an integer, print N must be a number,
+        followed by a new line, and exit with the status 1.
+        If N is smaller than 4, print N must be at least 4,
+        followed by a new line, and exit with the status 1.
+    The program should print every possible solution to the problem
+        One solution per line
+        Format: see example
+        You don't have to print the solutions in a specific order
+    You are only allowed to import the sys module
 """
-
 import sys
 
-def print_board(board, n):
-    """Print the board with queens' positions."""
-    positions = [[i, board[i]] for i in range(n)]
-    print(positions)
 
-def is_position_safe(board, row, col):
-    """Check if the position is safe for the queen."""
-    for i in range(row):
-        if board[i] == col or \
-           board[i] - i == col - row or \
-           board[i] + i == col + row:
-            return False
-    return True
+if len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    sys.exit(1)
 
-def solve_nqueens(board, row, n):
-    """Recursively find all safe positions for queens."""
-    if row == n:
-        print_board(board, n)
-    else:
-        for col in range(n):
-            if is_position_safe(board, row, col):
-                board[row] = col
-                solve_nqueens(board, row + 1, n)
+try:
+    num = int(sys.argv[1])
+except ValueError:
+    print("N must be a number")
+    sys.exit(1)
 
-def create_board(size):
-    """Create an empty board."""
-    return [-1] * size
+if num < 4:
+    print("N must be at least 4")
+    sys.exit(1)
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
 
-    try:
-        n = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
+def solveNQueens(n):
+    """
+    Places N non-attacking queens on an NxN chessboard.
+    """
+    col, pos, neg = set(), set(), set()
+    current_board = [[] for n in range(n)]
+    solved_board = []
 
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
+    def backtrack(row):
+        """
+        Tool for solving constraint satisfaction problems.
+        """
+        if row == n:
+            copy = current_board.copy()
+            solved_board.append(copy)
+            return
 
-    board = create_board(n)
-    solve_nqueens(board, 0, n)
+        for c in range(n):
+            if c in col or (row + c) in pos or (row - c) in neg:
+                continue
+
+            col.add(c)
+            pos.add(row + c)
+            neg.add(row - c)
+
+            current_board[row] = [row, c]
+
+            backtrack(row + 1)
+
+            col.remove(c)
+            pos.remove(row + c)
+            neg.remove(row - c)
+            current_board[row] = []
+
+    backtrack(0)
+
+    return solved_board
+
 
 if __name__ == "__main__":
-    main()
-
+    boards = solveNQueens(num)
+    for board in boards:
+        print(board)
