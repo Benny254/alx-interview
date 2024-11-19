@@ -1,32 +1,61 @@
 #!/usr/bin/python3
 """
-Rotate 2D Matrix
+Rotate a 2D matrix 90 degrees clockwise
 """
 
 
 def rotate_2d_matrix(matrix):
         """
-            Given an n x n 2D matrix, rotate it 90 degrees clockwise.
-                """
-                    n = len(matrix)
-                        for layer in range(n // 2):
-                                    first, last, offset = layer, n - 1 - layer, 0
-                                            for i in range(first, last):
-                                                            top = matrix[first][i]
-                                                                        matrix[first][i] = matrix[last - offset][first]
-                                                                                    matrix[last - offset][first] = matrix[last][last - offset]
-                                                                                                matrix[last][last - offset] = matrix[i][last]
-                                                                                                            matrix[i][last] = top
-                                                                                                                        offset += 1
+            Rotate a 2D matrix 90 degrees clockwise
 
-                                                                                                                        # def rotate_2d_matrix(matrix):
-                                                                                                                        #     n = len(matrix)
+                Args:
+                        matrix (list of list of int): The 2D matrix to rotate.
+                                Assumes a square matrix.
 
-                                                                                                                        #     # Transpose the matrix (swap rows with columns)
-                                                                                                                        #     for i in range(n):
-                                                                                                                        #         for j in range(i, n):
-                                                                                                                        #             matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+                                    Returns:
+                                            None: The rotation is performed in-place.
 
-                                                                                                                        #     # Reverse the rows to complete the rotation
-                                                                                                                        #     for i in range(n):
-                                                                                                                        #         matrix[i].reverse()
+                                                Algorithm:
+                                                    1. Swap elements of each row and column.
+                                                        2. Reverse each row.
+                                                            """
+                                                                m = len(matrix)
+
+                                                                    # Swap elements of each row and column
+                                                                        for i in range(m):
+                                                                                    for j in range(i, m):
+                                                                                                    matrix[j][i], matrix[i][j] = matrix[i][j], matrix[j][i]
+
+                                                                                                        # Reverse each row
+                                                                                                            for i in range(m):
+                                                                                                                        matrix[i] = matrix[i][::-1]#!/usr/bin/python3
+                                                                                                                        """
+                                                                                                                        Rotate a 2D matrix 90 degrees clockwise
+                                                                                                                        """
+
+
+                                                                                                                        def rotate_2d_matrix(matrix):
+                                                                                                                                """
+                                                                                                                                    Rotate a 2D matrix 90 degrees clockwise
+
+                                                                                                                                        Args:
+                                                                                                                                                matrix (list of list of int): The 2D matrix to rotate.
+                                                                                                                                                        Assumes a square matrix.
+
+                                                                                                                                                            Returns:
+                                                                                                                                                                    None: The rotation is performed in-place.
+
+                                                                                                                                                                        Algorithm:
+                                                                                                                                                                            1. Swap elements of each row and column.
+                                                                                                                                                                                2. Reverse each row.
+                                                                                                                                                                                    """
+                                                                                                                                                                                        m = len(matrix)
+
+                                                                                                                                                                                            # Swap elements of each row and column
+                                                                                                                                                                                                for i in range(m):
+                                                                                                                                                                                                            for j in range(i, m):
+                                                                                                                                                                                                                            matrix[j][i], matrix[i][j] = matrix[i][j], matrix[j][i]
+
+                                                                                                                                                                                                                                # Reverse each row
+                                                                                                                                                                                                                                    for i in range(m):
+                                                                                                                                                                                                                                                matrix[i] = matrix[i][::-1]
