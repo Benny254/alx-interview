@@ -1,53 +1,29 @@
 #!/usr/bin/python3
-"""
-Define isWinner function, a solution to the Prime Game problem
-"""
+"""Program that performs prime game"""
 
 
-def primes(n):
-        """
-            Return list of prime numbers between 1 and n inclusive
-                Args:
-                        n (int): upper boundary of range. lower boundary is always 1
-                            """
-                                prime = []
-                                    sieve = [True] * (n + 1)
-                                        # Sieve of Eratosthenes algorithm to find prime numbers
-                                            for p in range(2, n + 1):
-                                                        if sieve[p]:
-                                                                        prime.append(p)
-                                                                                    for i in range(p, n + 1, p):
-                                                                                                        sieve[i] = False
-                                                                                                            return prime
-
-
-                                                                                                        def isWinner(x, nums):
-                                                                                                                """
-                                                                                                                    Determines winner of Prime Game
-                                                                                                                        Args:
-                                                                                                                                x (int): no. of rounds of game
-                                                                                                                                        nums (int): upper limit of range for each round
-                                                                                                                                            Return:
-                                                                                                                                                    Name of winner (Maria or Ben) or None if the winner cannot be found
-                                                                                                                                                        """
-                                                                                                                                                            if x is None or nums is None or x == 0 or nums == []:
-                                                                                                                                                                        return None
-
-                                                                                                                                                                        Maria = Ben = 0
-                                                                                                                                                                            # Loop through each round
-                                                                                                                                                                                for i in range(x):
-                                                                                                                                                                                            prime = primes(nums[i])
-                                                                                                                                                                                                    # Count the number of primes in the current round
-                                                                                                                                                                                                            if len(prime) % 2 == 0:
-                                                                                                                                                                                                                            Ben += 1
-                                                                                                                                                                                                                                    else:
-                                                                                                                                                                                                                                                    Maria += 1
-
-                                                                                                                                                                                                                                                        # Determine the winner based on the count of primes in all rounds
-                                                                                                                                                                                                                                                            if Maria > Ben:
-                                                                                                                                                                                                                                                                        return 'Maria'
-                                                                                                                                                                                                                                                                        elif Ben > Maria:
-                                                                                                                                                                                                                                                                                    return 'Ben'
-
-                                                                                                                                                                                                                                                                                    # Return None if no winner is found
-                                                                                                                                                                                                                                                                                        return None
+def isWinner(x, nums):
+        """Function that performs prime game"""
+            if not nums or x < 1:
+                        return None
+                        n = max(nums)
+                            fltr = [True for _ in range(max(n + 1, 2))]
+                                for i in range(2, int(pow(n, 0.5)) + 1):
+                                            if not fltr[i]:
+                                                            continue
+                                                                for j in range(i * i, n + 1, i):
+                                                                                fltr[j] = False
+                                                                                    fltr[0] = fltr[1] = False
+                                                                                        c = 0
+                                                                                            for i in range(len(fltr)):
+                                                                                                        if fltr[i]:
+                                                                                                                        c += 1
+                                                                                                                                fltr[i] = c
+                                                                                                                                    plyr1 = 0
+                                                                                                                                        for n in nums:
+                                                                                                                                                    plyr1 += fltr[n] % 2 == 1
+                                                                                                                                                        if plyr1 * 2 == len(nums):
+                                                                                                                                                                    return None
+                                                                                                                                                                    if plyr1 * 2 > len(nums):
+                                                                                                                                                                                return "Maria"
+                                                                                                                                                                                return "Ben"
