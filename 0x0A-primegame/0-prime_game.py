@@ -1,42 +1,57 @@
 #!/usr/bin/python3
-"""0. Prime Game - Maria and Ben are playing a game"""
+"""Module for Prime Game."""
 
 
-def isWinner(x, nums):
-        """x - rounds
-            nums - numbers list
-                """
-                    if x <= 0 or nums is None:
-                                return None
-                                if x != len(nums):
-                                            return None
-
-                                            ben = 0
-                                                maria = 0
-
-                                                    a = [1 for x in range(sorted(nums)[-1] + 1)]
-                                                        a[0], a[1] = 0, 0
-                                                            for i in range(2, len(a)):
-                                                                        rm_multiples(a, i)
-
-                                                                            for i in nums:
-                                                                                        if sum(a[0:i + 1]) % 2 == 0:
-                                                                                                        ben += 1
-                                                                                                                else:
-                                                                                                                                maria += 1
-                                                                                                                                    if ben > maria:
-                                                                                                                                                return "Ben"
-                                                                                                                                                if maria > ben:
-                                                                                                                                                            return "Maria"
-                                                                                                                                                            return None
+def generatePrimeFlags(maxValue):
+        """Generates a list where the index represents the number,
+               and the value at each index indicates whether it is prime."""
+                   primeFlags = [True] * (maxValue + 1)
+                       primeFlags[0] = primeFlags[1] = False  # 0 and 1 are not primes
+                           currentPrime = 2
+                               while currentPrime * currentPrime <= maxValue:
+                                           if primeFlags[currentPrime]:
+                                                           for i in range(currentPrime * currentPrime,
+                                                                                              maxValue + 1,
+                                                                                                                         currentPrime):
+                                                                               primeFlags[i] = False
+                                                                                       currentPrime += 1
+                                                                                           return primeFlags
 
 
-                                                                                                                                                        def rm_multiples(ls, x):
-                                                                                                                                                                """removes multiple
-                                                                                                                                                                    of primes
-                                                                                                                                                                        """
-                                                                                                                                                                            for i in range(2, len(ls)):
-                                                                                                                                                                                        try:
-                                                                                                                                                                                                        ls[i * x] = 0
-                                                                                                                                                                                                                except (ValueError, IndexError):
-                                                                                                                                                                                                                                break
+                                                                                       def calculatePrimeCount(primeFlags, limit):
+                                                                                               """For each limit, count how many primes are available.
+                                                                                                      The winner of the round depends on whether the count
+                                                                                                             of primes is odd or even."""
+                                                                                                                 primeCounter = 0
+                                                                                                                     for i in range(2, limit + 1):
+                                                                                                                                 if primeFlags[i]:
+                                                                                                                                                 primeCounter += 1
+                                                                                                                                                     return primeCounter % 2
+
+
+                                                                                                                                                 def isWinner(x, nums):
+                                                                                                                                                         """Determine the overall winner of the Prime Game."""
+                                                                                                                                                             if x <= 0 or not nums:
+                                                                                                                                                                         return None
+
+                                                                                                                                                                         maxValue = max(nums)
+                                                                                                                                                                             primeFlags = generatePrimeFlags(maxValue)
+
+                                                                                                                                                                                 mariaWins = 0
+                                                                                                                                                                                     benWins = 0
+
+                                                                                                                                                                                         for limit in nums:
+                                                                                                                                                                                                     if limit == 1:
+                                                                                                                                                                                                                     benWins += 1
+                                                                                                                                                                                                                             else:
+                                                                                                                                                                                                                                             if calculatePrimeCount(primeFlags, limit) == 1:
+                                                                                                                                                                                                                                                                 mariaWins += 1
+                                                                                                                                                                                                                                                                             else:
+                                                                                                                                                                                                                                                                                                 benWins += 1
+
+                                                                                                                                                                                                                                                                                                     if mariaWins > benWins:
+                                                                                                                                                                                                                                                                                                                 return "Maria"
+                                                                                                                                                                                                                                                                                                                 elif benWins > mariaWins:
+                                                                                                                                                                                                                                                                                                                             return "Ben"
+                                                                                                                                                                                                                                                                                                                             else:
+                                                                                                                                                                                                                                                                                                                                         return None
