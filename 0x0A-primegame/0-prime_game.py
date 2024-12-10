@@ -1,41 +1,53 @@
 #!/usr/bin/python3
 """
-The player that cannot make a move loses the game.
+Define isWinner function, a solution to the Prime Game problem
 """
 
 
-def isWinner(x, nums):
+def primes(n):
         """
-        Return: name of the player that won the most rounds.
-                If the winner cannot be determined, return `None`.
-                    """
-                        def is_prime(n):
-                                    """"""
-                                            remainders = []
-                                                    if (n <= 1):
-                                                                    return False
-                                                                        if (n <= 3):
-                                                                                        return True
-                                                                                            if (n % 2 == 0 or n % 3 == 0):
-                                                                                                            return False
-                                                                                                                i = 5
-                                                                                                                        while(i * i <= n):
-                                                                                                                                        if (n % i == 0 or n % (i + 2) == 0):
-                                                                                                                                                            return False
-                                                                                                                                                                    i = i + 6
-                                                                                                                                                                            return True
+            Return list of prime numbers between 1 and n inclusive
+                Args:
+                        n (int): upper boundary of range. lower boundary is always 1
+                            """
+                                prime = []
+                                    sieve = [True] * (n + 1)
+                                        # Sieve of Eratosthenes algorithm to find prime numbers
+                                            for p in range(2, n + 1):
+                                                        if sieve[p]:
+                                                                        prime.append(p)
+                                                                                    for i in range(p, n + 1, p):
+                                                                                                        sieve[i] = False
+                                                                                                            return prime
 
-                                                                                                                                                                            nums.sort()
 
-                                                                                                                                                                                def primes(nums):
-                                                                                                                                                                                            """"""
-                                                                                                                                                                                                    primes = []
-                                                                                                                                                                                                            for n in nums:
-                                                                                                                                                                                                                            if is_prime(n):
-                                                                                                                                                                                                                                                primes.append(n)
+                                                                                                        def isWinner(x, nums):
+                                                                                                                """
+                                                                                                                    Determines winner of Prime Game
+                                                                                                                        Args:
+                                                                                                                                x (int): no. of rounds of game
+                                                                                                                                        nums (int): upper limit of range for each round
+                                                                                                                                            Return:
+                                                                                                                                                    Name of winner (Maria or Ben) or None if the winner cannot be found
+                                                                                                                                                        """
+                                                                                                                                                            if x is None or nums is None or x == 0 or nums == []:
+                                                                                                                                                                        return None
 
-                                                                                                                                                                                                                                                        return primes
+                                                                                                                                                                        Maria = Ben = 0
+                                                                                                                                                                            # Loop through each round
+                                                                                                                                                                                for i in range(x):
+                                                                                                                                                                                            prime = primes(nums[i])
+                                                                                                                                                                                                    # Count the number of primes in the current round
+                                                                                                                                                                                                            if len(prime) % 2 == 0:
+                                                                                                                                                                                                                            Ben += 1
+                                                                                                                                                                                                                                    else:
+                                                                                                                                                                                                                                                    Maria += 1
 
-                                                                                                                                                                                                                                                        moves = primes(nums)
+                                                                                                                                                                                                                                                        # Determine the winner based on the count of primes in all rounds
+                                                                                                                                                                                                                                                            if Maria > Ben:
+                                                                                                                                                                                                                                                                        return 'Maria'
+                                                                                                                                                                                                                                                                        elif Ben > Maria:
+                                                                                                                                                                                                                                                                                    return 'Ben'
 
-                                                                                                                                                                                                                                                            return "Ben"
+                                                                                                                                                                                                                                                                                    # Return None if no winner is found
+                                                                                                                                                                                                                                                                                        return None
