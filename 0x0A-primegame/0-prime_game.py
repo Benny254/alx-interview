@@ -3,42 +3,40 @@
 Define isWineer function, a solution to the Prime Game problem
 """
 
+def isWinner(x, nums):
+        def sieve_of_eratosthenes(limit):
+                    """Generates a list where prime[i] is True if i is a prime number."""
+                            prime = [True] * (limit + 1)
+                                    prime[0] = prime[1] = False  # 0 and 1 are not primes
+                                            for i in range(2, int(limit ** 0.5) + 1):
+                                                            if prime[i]:
+                                                                                for j in range(i * i, limit + 1, i):
+                                                                                                        prime[j] = False
+                                                                                                                return prime
 
-def primes(n):
-        """Return list of prime numbers between 1 and n inclusive
-               Args:
-                       n (int): upper boundary of range. lower boundary is always 1
-                           """
-                               prime = []
-                                   sieve = [True] * (n + 1)
-                                       for p in range(2, n + 1):
-                                                   if (sieve[p]):
-                                                                   prime.append(p)
-                                                                               for i in range(p, n + 1, p):
-                                                                                                   sieve[i] = False
-                                                                                                       return prime
+                                                                                                                def count_primes_up_to(n, prime):
+                                                                                                                            """Counts the number of primes up to n."""
+                                                                                                                                    return sum(prime[:n + 1])
 
+                                                                                                                                    if not nums or x < 1:
+                                                                                                                                                return None
 
-                                                                                                   def isWinner(x, nums):
-                                                                                                           """
-                                                                                                               Determines winner of Prime Game
-                                                                                                                   Args:
-                                                                                                                           x (int): no. of rounds of game
-                                                                                                                                   nums (int): upper limit of range for each round
-                                                                                                                                       Return:
-                                                                                                                                               Name of winner (Maria or Ben) or None if winner cannot be found
-                                                                                                                                                   """
-                                                                                                                                                       if x is None or nums is None or x == 0 or nums == []:
-                                                                                                                                                                   return None
-                                                                                                                                                                   Maria = Ben = 0
-                                                                                                                                                                       for i in range(x):
-                                                                                                                                                                                   prime = primes(nums[i])
-                                                                                                                                                                                           if len(prime) % 2 == 0:
-                                                                                                                                                                                                           Ben += 1
-                                                                                                                                                                                                                   else:
-                                                                                                                                                                                                                                   Maria += 1
-                                                                                                                                                                                                                                       if Maria > Ben:
-                                                                                                                                                                                                                                                   return 'Maria'
-                                                                                                                                                                                                                                                   elif Ben > Maria:
-                                                                                                                                                                                                                                                               return 'Ben'
-                                                                                                                                                                                                                                                               return None
+                                                                                                                                                max_n = max(nums)
+                                                                                                                                                    prime = sieve_of_eratosthenes(max_n)
+                                                                                                                                                        maria_wins = 0
+                                                                                                                                                            ben_wins = 0
+
+                                                                                                                                                                for n in nums:
+                                                                                                                                                                            primes = count_primes_up_to(n, prime)
+                                                                                                                                                                                    if primes % 2 == 0:
+                                                                                                                                                                                                    ben_wins += 1
+                                                                                                                                                                                                            else:
+                                                                                                                                                                                                                            maria_wins += 1
+
+                                                                                                                                                                                                                                if maria_wins > ben_wins:
+                                                                                                                                                                                                                                            return "Maria"
+                                                                                                                                                                                                                                            elif ben_wins > maria_wins:
+                                                                                                                                                                                                                                                        return "Ben"
+                                                                                                                                                                                                                                                        else:
+                                                                                                                                                                                                                                                                    return None
+
